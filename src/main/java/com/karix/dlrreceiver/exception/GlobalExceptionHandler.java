@@ -1,6 +1,8 @@
 package com.karix.dlrreceiver.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger log = LogManager.getLogger(GlobalExceptionHandler.class);
 
     private static final String STATUS_CODE = "statusCode";
     private static final String MESSAGE = "message";
@@ -25,6 +28,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
+        log.warn("Validation error: {}", ex.getMessage());
 
         Map<String, Object> response = new HashMap<>();
         Map<String, String> fieldErrors = new HashMap<>();
@@ -54,6 +58,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleInvalidJson(HttpMessageNotReadableException ex) {
+        log.warn("Invalid JSON received: {}", ex.getMessage());
 
         Map<String, Object> response = new HashMap<>();
 
@@ -127,6 +132,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
+        log.error("Unhandled exception occurred", ex);
 
         Map<String, Object> response = new HashMap<>();
 

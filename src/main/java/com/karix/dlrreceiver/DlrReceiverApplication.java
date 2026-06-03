@@ -12,7 +12,11 @@ import org.springframework.context.annotation.ComponentScan;
 public class DlrReceiverApplication {
 
     public static void main(String[] args) {
+        System.out.println("=".repeat(50));
+        System.out.println("Starting DLR Receiver Application...");
+        System.out.println("Version: 1.1.0");
+        System.out.println("Build Date: 2026-06-03");
+        System.out.println("=".repeat(50));
         SpringApplication.run(DlrReceiverApplication.class, args);
     }
-
 }
